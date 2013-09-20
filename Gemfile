@@ -10,6 +10,7 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
 gem 'devise'
 gem "figaro"
+gem 'httparty'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -19,6 +20,8 @@ end
 group :development, :test do
   gem 'rspec-rails'
   gem "factory_girl_rails"
+  gem 'guard-rspec'
+  gem 'guard-cucumber'
 end
 
 group :test do
@@ -29,4 +32,6 @@ group :test do
   gem 'selenium-webdriver'
   gem 'shoulda-matchers'
   gem 'minitest', '4.2'
+  gem 'vcr'
+  gem 'fakeweb'
 end

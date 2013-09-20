@@ -1,0 +1,31 @@
+<h1>Listing user_requests</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Uid</th>
+      <th>Pub0</th>
+      <th>Page</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @user_requests.each do |user_request| %>
+      <tr>
+        <td><%= user_request.uid %></td>
+        <td><%= user_request.pub0 %></td>
+        <td><%= user_request.page %></td>
+        <td><%= link_to 'Show', user_request %></td>
+        <td><%= link_to 'Edit', edit_user_request_path(user_request) %></td>
+        <td><%= link_to 'Destroy', user_request, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New User request', new_user_request_path %>
