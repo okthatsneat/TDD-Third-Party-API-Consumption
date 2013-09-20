@@ -13,7 +13,7 @@
 
 ActiveRecord::Schema.define(version: 20130918155015) do
 
-  create_table "user_requests", force: true do |t|
+  create_table "offers", force: true do |t|
     t.string   "uid"
     t.string   "pub0"
     t.integer  "page"

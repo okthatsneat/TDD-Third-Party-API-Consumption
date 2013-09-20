@@ -1,7 +1,7 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  factory :user_request do
+  factory :offer do
     uid "MyString"
     pub0 "MyString"
     page 1

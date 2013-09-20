@@ -1,4 +1,4 @@
-class UserRequest < ActiveRecord::Base
+class Offer < ActiveRecord::Base
 
   validates_presence_of :uid
 
