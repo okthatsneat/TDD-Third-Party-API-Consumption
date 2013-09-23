@@ -1,26 +1,63 @@
 require 'spec_helper'
 
-describe "Offers" do
+describe "Offer Pages", :vcr do
   
-  it "displays ad when submitting valid form" do
-    visit new_offer_path
-    fill_in "Uid", with: "player1"
-    fill_in "Pub0", with: "campaign2"
-    fill_in "Page", with: 2
-    click_button 'Create Offer'
-    page.should have_css 'div.title'
-    page.should have_css 'div.thumbnail'
-    page.should have_css 'div.lowres'
-    page.should have_css 'div.payout'
-    page.should have_css 'img', text: "lowres.jpg"
+  subject { page }
+
+  describe "create new offer" do
+    before { visit new_offer_path }
+
+    let(:submit) {'Create Offer'}
+    
+    describe "with invalid params" do
+      it "should not create an offer" do
+        expect { click_button submit }.not_to change(Offer, :count)
+      end
+    end
+
+    describe "with valid params" do
+      before do 
+        fill_in "Uid", with: "player1"
+        fill_in "Pub0", with: "campaign2"
+        #fill_in "Page", with: 2 TODO handle page does not exist
+        click_button submit
+      end
+
+      it "should create an Offer" do
+        expect change(Offer, :count).by(1)        
+      end  
+
+      it "should create an Offer with default params set" do
+        offer = Offer.find_by_uid("player1")
+        offer.locale.should eq ENV['LOCALE']
+        offer.request_timestamp.should_not be_nil
+      end
+
+      it "should display the offers page with either no content items, or all content items if present" do
+        page.should satisfy do
+          (page.has_css?(".offer")) || (page.has_css?(".no_offers"))
+        end
+      end
+    end
   end
 
-  it "displays error when submitting invalid form" do
-    visit new_offer_path
-    click_button 'Create Offer'
-    page.should have_content "Uid can't be blank"
+  describe "an offer page that has offers" do
+    before do 
+      offer = FactoryGirl.create(:offer)
+      @content_item = FactoryGirl.create(:content_item)
+      @content_item.offer = offer
+      visit offer_path(offer.id)
+    end
+    it "should display the offer title" do
+      page.should have_css(".title", text: @content_item.title)
+    end
+    
+    it "should display the lowres thumbnail" do
+      page.should have_xpath("//img[contains(@src, \"#{@content_item.thumbnail[:lowres]}\")]")
+    end
+
+    it "should display the payout information" do
+      page.should have_css(".payout", text: @content_item.payout)
+    end
   end
-
-
-
 end

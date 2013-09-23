@@ -1,0 +1,41 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://api.sponsorpay.com/feed/v1/offers.json?appid=157&device_id=2b6f0cc904d137be2e1730235f5664094b831186&hashkey=1be0b78ac68014a3cbd9096e4bc3614c8ba0798a&ip=109.235.143.113&locale=&offer_types=112&page=&pub0=&timestamp=0&uid=
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - timeout=20
+      Status:
+      - 400 Bad Request
+      X-Runtime:
+      - '0.000925'
+      Date:
+      - Fri, 20 Sep 2013 11:11:16 GMT
+      X-Rack-Cache:
+      - miss
+      X-Powered-By:
+      - Phusion Passenger 4.0.14
+      Server:
+      - nginx + Phusion Passenger 4.0.14
+    body:
+      encoding: UTF-8
+      string: '{"code":"ERROR_INVALID_UID","message":"An invalid user id (uid) was
+        given as a parameter in the request."}'
+    http_version: 
+  recorded_at: Fri, 20 Sep 2013 11:11:16 GMT
+recorded_with: VCR 2.5.0

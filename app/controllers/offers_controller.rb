@@ -1,5 +1,6 @@
 class OffersController < ApplicationController
   before_action :set_offer, only: [:show, :edit, :update, :destroy]
+  before_action :set_request_timestamp
 
   # GET /offers
   # GET /offers.json
@@ -10,7 +11,7 @@ class OffersController < ApplicationController
   # GET /offers/1
   # GET /offers/1.json
   def show
-    
+    @offer.get_offers
   end
 
   # GET /offers/new
@@ -25,10 +26,9 @@ class OffersController < ApplicationController
   # POST /offers
   # POST /offers.json
   def create
-    @offer = Offer.new(offer_params)
-
+    @offer = Offer.new(offer_params_with_defaults)
     respond_to do |format|
-      if @offer.save
+      if @offer.save        
         format.html { redirect_to @offer, notice: 'Offer was successfully created.' }
         format.json { render action: 'show', status: :created, location: @offer }
       else
@@ -72,4 +72,16 @@ class OffersController < ApplicationController
     def offer_params
       params.require(:offer).permit(:uid, :pub0, :page)
     end
+
+    def offer_params_with_defaults
+      offer_params.merge({
+        locale: ENV['LOCALE'], 
+        request_timestamp: @request_timestamp
+      })
+    end
+
+    def set_request_timestamp
+      @request_timestamp = Time.now
+    end
+
 end

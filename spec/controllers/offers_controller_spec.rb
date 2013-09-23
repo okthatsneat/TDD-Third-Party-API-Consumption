@@ -39,11 +39,15 @@ describe OffersController do
   end
 
   describe "GET show" do
+    
     it "assigns the requested offer as @offer" do
       offer = Offer.create! valid_attributes
-      get :show, {:id => offer.to_param}, valid_session
+      VCR.use_cassette "mobile_offer_api/invalid2" do
+        get :show, {:id => offer.to_param}, valid_session
+      end
       assigns(:offer).should eq(offer)
     end
+
   end
 
   describe "GET new" do
@@ -68,7 +72,7 @@ describe OffersController do
           post :create, {:offer => valid_attributes}, valid_session
         }.to change(Offer, :count).by(1)
       end
-
+      
       it "assigns a newly created offer as @offer" do
         post :create, {:offer => valid_attributes}, valid_session
         assigns(:offer).should be_a(Offer)
@@ -79,6 +83,9 @@ describe OffersController do
         post :create, {:offer => valid_attributes}, valid_session
         response.should redirect_to(Offer.last)
       end
+
+
+
     end
 
     describe "with invalid params" do

@@ -17,3 +17,6 @@
 
 # Ignore application configuration
 /config/application.yml
+
+# Ignore challenge description pdf since it has credentials on it
+SponsorPay_Developers_Challenge_v1 

@@ -1,0 +1,41 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://api.sponsorpay.com/feed/v1/offers.json?appid=157&device_id=2b6f0cc904d137be2e1730235f5664094b831186&hashkey=365673c5c4ea7e7c4049406d3de3f1de4dc02b77&ip=109.235.143.113&locale=&offer_types=112&page=&pub0=&timestamp=0&uid=MyString
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - timeout=20
+      Status:
+      - 400 Bad Request
+      X-Runtime:
+      - '0.001497'
+      Date:
+      - Fri, 20 Sep 2013 15:21:38 GMT
+      X-Rack-Cache:
+      - miss
+      X-Powered-By:
+      - Phusion Passenger 4.0.14
+      Server:
+      - nginx + Phusion Passenger 4.0.14
+    body:
+      encoding: UTF-8
+      string: '{"code":"ERROR_INVALID_TIMESTAMP","message":"An invalid or expired
+        timestamp was given as a parameter in the request."}'
+    http_version: 
+  recorded_at: Fri, 20 Sep 2013 15:21:38 GMT
+recorded_with: VCR 2.5.0

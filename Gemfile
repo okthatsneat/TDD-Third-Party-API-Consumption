@@ -33,5 +33,5 @@ group :test do
   gem 'shoulda-matchers'
   gem 'minitest', '4.2'
   gem 'vcr'
-  gem 'fakeweb'
+  gem 'webmock'
 end
