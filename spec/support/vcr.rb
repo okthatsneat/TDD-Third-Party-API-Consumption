@@ -3,7 +3,6 @@ VCR.configure do |c|
   c.hook_into :webmock
   c.debug_logger = File.open("log/vcr.log", 'w')
   c.configure_rspec_metadata!
-  c.preserve_exact_body_bytes { true }
   c.default_cassette_options = {  
     re_record_interval: 1.week, 
     match_requests_on: [:method,

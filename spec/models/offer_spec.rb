@@ -34,18 +34,22 @@ describe Offer do
     end
 
     context "with no offers present" do
-      pending
+      before do
+        no_offers = [] 
+        SponsorPay::MobileOffer.any_instance
+          .should_receive(:get_offers)
+          .and_return(no_offers)
+          @content_items = @offer.get_offers                  
+      end
+      
+      it "should not return itmes" do
+        @content_items.should be_empty
+      end
+
+      it "should not create offer associated content items" do
+        @offer.content_items.should be_empty
+      end
     end
-
-
-
   end
-
-
-      # it "should return a valid signed response" do
-      #   @response.headers["X-Sponsorpay-Response-Signature"].should eq @offer.response_validation_hash(@response.body)
-      # end
-        
-  
 
 end

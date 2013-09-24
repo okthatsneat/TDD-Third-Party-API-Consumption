@@ -106,7 +106,7 @@ describe OffersController do
   end
 
   describe "PUT update" do
-    describe "with valid params" do
+    describe "with valid params", :vcr do
       it "updates the requested offer" do
         offer = Offer.create! valid_attributes
         # Assuming there are no other offers in the database, this

@@ -18,8 +18,6 @@ describe "Offer Pages", :vcr do
     describe "with valid params" do
       before do 
         fill_in "Uid", with: "player1"
-        fill_in "Pub0", with: "campaign2"
-        #fill_in "Page", with: 2 TODO handle page does not exist
         click_button submit
       end
 
@@ -38,6 +36,19 @@ describe "Offer Pages", :vcr do
           (page.has_css?(".offer")) || (page.has_css?(".no_offers"))
         end
       end
+    end
+  
+    describe "with page attribute set to a value larger than offer pages coming from the api" do
+      before do 
+        fill_in "Uid", with: "player1"
+        fill_in "Pub0", with: "campaign2"
+        fill_in "Page", with: 10_000_000_000
+        click_button submit
+      end
+      it "should not create any content items" do
+        Offer.find_by_uid("player1").content_items.should be_empty
+      end
+
     end
   end
 

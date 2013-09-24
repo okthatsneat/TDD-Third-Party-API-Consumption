@@ -1,6 +1,11 @@
 module SponsorPay
   class MobileOffer
-    attr_reader :locale, :page, :uid, :pub0, :request_timestamp
+    include ActiveModel::Validations
+    
+    validates_presence_of :uid, :request_timestamp
+    attr_accessor :uid, :request_timestamp
+    attr_reader :locale, :page, :pub0
+
     def initialize(params = {})
       @uid = params[:uid]
       @locale = params[:locale]
@@ -23,10 +28,14 @@ module SponsorPay
     end
 
     def get_offers
-      if (response = get_response)
-        response.parsed_response["offers"]
-      else 
-        []
+      if valid? # check for param integrity
+        if (response = get_response) # make the call and validate response           
+          response.code == 200 ? response.parsed_response["offers"] : [] # guard against bad requests
+        else 
+          []
+        end
+      else
+        raise "At least a Hash with values for :uid and :timestamp needs to be provided in the initializer"
       end
     end
 
@@ -67,6 +76,5 @@ module SponsorPay
       raise Exceptions::FailedResponseValidationError unless response_validation_hash(response.body) == response.header["X-Sponsorpay-Response-Signature"] 
     end 
 
-  end
-  
+  end  
 end

@@ -32,20 +32,21 @@ describe SponsorPay::MobileOffer do
 
   describe ".get_offers", :vcr do
     context "with valid params" do
-      context "with response validation passing" do
-        before (:each) do
-          @offer = FactoryGirl.build(:offer) 
-          offer_params = {
-            uid: @offer.uid,
-            locale: @offer.locale,
-            pub0: @offer.pub0,
-            page: @offer.page,
-            timestamp: @offer.request_timestamp.to_i
-          }
-          @mobile_offer_client = SponsorPay::MobileOffer.new(offer_params)
-          @response = @mobile_offer_client.get_response
-        end
+      before (:each) do
+        @offer = FactoryGirl.build(:offer) 
+        offer_params = {
+          uid: @offer.uid,
+          locale: @offer.locale,
+          pub0: @offer.pub0,
+          page: @offer.page,
+          timestamp: @offer.request_timestamp.to_i
+        }
+        @mobile_offer_client = SponsorPay::MobileOffer.new(offer_params)
+        @response = @mobile_offer_client.get_response
+      end
 
+      context "with response validation passing" do
+        
         it "returns a valid response with status 200 ok" do
           @response.should be_success 
         end
@@ -68,19 +69,32 @@ describe SponsorPay::MobileOffer do
           if @response.body["code"] == "NO_CONTENT"
             @response.body["offers"].should be_empty
           end
-        end  
+        end        
       end
 
-      context "with response validation failing" do
-        pending
-        # mock out an api resonse that has been tempered with, aka has not matching X-Sponsorpay-Response-Signature
-        # have that be passed to the MobileOffer validate_response method 
-        # and then expect the return of the get_offers(offer_params) to be some error that the model can handle
-      end
+      context "with response validation not passing" do
+        before do
+          @response.instance_exec("fake"){ |x| @body = x}
+        end
+        
+        it "should raise response validation error if the response has been modified" do                   
+          expect {@mobile_offer_client.validate_response(@response)}.to raise_error       
+        end
+
+        it "should return no offers" do
+          HTTParty.should_receive(:get).and_return(@response)
+          offers = @mobile_offer_client.get_offers
+          offers.should be_empty                   
+        end      
+      end    
     end
-    
-    context "with invalid params" do
-      pending
+          
+    context "calling .get_offers with invalid initialization" do
+      it "raises an error" do
+        invalid_client = SponsorPay::MobileOffer.new
+        expect {invalid_client.get_offers}.to raise_error  
+      end
+      
     end
 
   end  

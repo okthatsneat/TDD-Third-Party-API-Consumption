@@ -37,14 +37,4 @@ ActiveRecord::Schema.define(version: 20130921135930) do
     t.datetime "request_timestamp"
   end
 
-  create_table "user_requests", force: true do |t|
-    t.string   "uid"
-    t.string   "pub0"
-    t.integer  "page"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "locale"
-    t.datetime "request_timestamp"
-  end
-
 end

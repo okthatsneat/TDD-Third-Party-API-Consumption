@@ -43,6 +43,7 @@ class OffersController < ApplicationController
   def update
     respond_to do |format|
       if @offer.update(offer_params)
+        @offer.get_offers
         format.html { redirect_to @offer, notice: 'Offer was successfully updated.' }
         format.json { head :no_content }
       else

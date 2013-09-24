@@ -27,11 +27,10 @@ end
 group :test do
   gem "database_cleaner", '< 1.1.0'  
   gem "email_spec"
-  gem "cucumber-rails", :require => false
   gem "capybara"
   gem 'selenium-webdriver'
   gem 'shoulda-matchers'
   gem 'minitest', '4.2'
   gem 'vcr'
-  gem 'webmock'
+  gem 'webmock', '1.11' # to avoid vcr compatibility warning
 end
