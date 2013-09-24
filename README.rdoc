@@ -14,3 +14,6 @@ b. If we have no offers there we render a message like ‘No offers’
 
 API Specs
 Check “Publisher Integration Guide (Mobile Offer API)” (doc folder) for technical documentation
+
+==== In order to run this
+You will need to set APPID, DEVICE_ID, IP, OFFER_TYPES, API_KEY, LOCALE in in the ENV Hash, for example with Figaro and an application.yml in the config directory. The Values were provided with the challenge by SponsorPay. 
