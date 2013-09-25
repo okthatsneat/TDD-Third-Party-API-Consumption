@@ -15,7 +15,9 @@ class Offer < ActiveRecord::Base
     content_items = mobile_offer_client.get_offers
     #create associated content_item for array element
     content_items.each do |content_item|
-      self.content_items.build(content_item).save 
+      unless ContentItem.exists?(title: content_item["title"])
+        self.content_items.build(content_item).save
+      end  
     end
   end
 

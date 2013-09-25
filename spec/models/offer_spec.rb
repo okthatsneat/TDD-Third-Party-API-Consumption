@@ -8,10 +8,10 @@ describe Offer do
   describe ".get_offers" do
     context "with offers present" do
       before do
-        offers = JSON.parse(offers_json) #offers_json is offers part of the the raw json coming from the mobile offer api
+        @offers = JSON.parse(offers_json) #offers_json is offers part of the the raw json coming from the mobile offer api
         SponsorPay::MobileOffer.any_instance
-          .should_receive(:get_offers)
-          .and_return(offers)
+          .stub(:get_offers)
+          .and_return(@offers)
           @content_items = @offer.get_offers                  
       end
 
@@ -29,6 +29,11 @@ describe Offer do
             content_item.public_send(attribute.to_sym).should eq @content_items[index][attribute]
           end
         end        
+      end
+
+      it "only creates content items if they don't already exist" do
+        @offer.get_offers
+        @offer.content_items.should_not have(4).content_items 
       end
 
     end
